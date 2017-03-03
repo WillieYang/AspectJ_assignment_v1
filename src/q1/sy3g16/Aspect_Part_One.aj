@@ -9,15 +9,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public aspect aspect_coursework {
+public aspect Aspect_Part_One {
 	
 	public String currentnode;
 	public String targetnode;
-	public String filename = "./file.csv";
+	public String nodefile = "./node.csv";
 	public String edgefile = "./edge.csv";
 	
-	pointcut callnodes(B b)
-						: cflowbelow(call(public int q1..*(int)))
+	pointcut callnodes(B b): cflowbelow(call(public int q1..*(int)))
 							 && target(b)
 								&& within(B || Test);
 	
@@ -25,6 +24,8 @@ public aspect aspect_coursework {
 		
 		Signature sig = thisJoinPointStaticPart.getSignature();
 		Signature sig_2 = thisEnclosingJoinPointStaticPart.getSignature();
+		
+		System.out.println("Before called ------");
 		
 		currentnode = "B" + "." + sig.getName() + "(int)";
 		targetnode = "B" + "." + sig_2.getName() + "(int)";
@@ -37,10 +38,9 @@ public aspect aspect_coursework {
 		System.out.println(
 				"JoinPoint at:" + thisEnclosingJoinPointStaticPart.getSourceLocation().getWithinType().getCanonicalName()
 				+ "-->" + thisEnclosingJoinPointStaticPart.getSourceLocation().getLine());
-		
-		System.out.println("Before called ------");
 			
-		try(FileWriter fw = new FileWriter(filename, true);
+			
+		try(FileWriter fw = new FileWriter(nodefile, true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			PrintWriter out = new PrintWriter(bw))
 		{
