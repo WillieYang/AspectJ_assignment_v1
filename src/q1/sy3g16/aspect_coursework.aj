@@ -16,18 +16,18 @@ public aspect aspect_coursework {
 	public String filename = "./file.csv";
 	public String edgefile = "./edge.csv";
 	
-	pointcut callnodes(B b, int x)
+	pointcut callnodes(B b)
 						: cflowbelow(call(public int q1..*(int)))
-							 && args(x) && target(b)
+							 && target(b)
 								&& within(B || Test);
 	
-	before(B b, int x) : callnodes(b, x) {
+	before(B b) : callnodes(b) {
 		
 		Signature sig = thisJoinPointStaticPart.getSignature();
 		Signature sig_2 = thisEnclosingJoinPointStaticPart.getSignature();
 		
-		nodes = "B" + "." + sig.getName() + "(" + x + ")";
-		targetnode = "B" + "." + sig_2.getName() + "(" + x + ")";
+		nodes = "B" + "." + sig.getName() + "(int)";
+		targetnode = "B" + "." + sig_2.getName() + "(int)";
 		System.out.println("Current method:" + nodes);
 		System.out.println(
 				"JoinPoint at:" + thisJoinPointStaticPart.getSourceLocation().getWithinType().getCanonicalName()
