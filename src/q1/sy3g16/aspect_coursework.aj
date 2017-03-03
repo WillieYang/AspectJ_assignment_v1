@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 
 public aspect aspect_coursework {
 	
-	public String nodes;
+	public String currentnode;
 	public String targetnode;
 	public String filename = "./file.csv";
 	public String edgefile = "./edge.csv";
@@ -26,9 +26,9 @@ public aspect aspect_coursework {
 		Signature sig = thisJoinPointStaticPart.getSignature();
 		Signature sig_2 = thisEnclosingJoinPointStaticPart.getSignature();
 		
-		nodes = "B" + "." + sig.getName() + "(int)";
+		currentnode = "B" + "." + sig.getName() + "(int)";
 		targetnode = "B" + "." + sig_2.getName() + "(int)";
-		System.out.println("Current method:" + nodes);
+		System.out.println("Current method:" + currentnode);
 		System.out.println(
 				"JoinPoint at:" + thisJoinPointStaticPart.getSourceLocation().getWithinType().getCanonicalName()
 				+ "-->" + thisJoinPointStaticPart.getSourceLocation().getLine());
@@ -39,15 +39,30 @@ public aspect aspect_coursework {
 				+ "-->" + thisEnclosingJoinPointStaticPart.getSourceLocation().getLine());
 		
 		System.out.println("Before called ------");
-		
+			
 		try(FileWriter fw = new FileWriter(filename, true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			PrintWriter out = new PrintWriter(bw))
 		{
-			out.println(nodes);
+			out.println(currentnode);
 			
 		}catch(IOException e){
 			System.out.println("Error Message.");
 		}
+		
+		if(currentnode.equals(targetnode)){}
+		else{
+			try(FileWriter fw_edge = new FileWriter(edgefile, true);
+					BufferedWriter bw_edge = new BufferedWriter(fw_edge);
+					PrintWriter out_edge = new PrintWriter(bw_edge))
+				{
+					out_edge.println(targetnode + "-->" + currentnode);
+					
+				}catch(IOException e){
+					System.out.println("Error Message.");
+				}
+		}
+		
+		System.out.println("Close ------");
 	}
 }
