@@ -9,7 +9,7 @@ public class B {
 	
 	public int bar(int b){
 		
-		return baz(b);
+		return baz(4);
 	}
 	
 	public int baz(int a){
