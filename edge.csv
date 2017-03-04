@@ -1,2 +1,8 @@
 B.foo(int)-->B.bar(int)
 B.bar(int)-->B.baz(int)
+B.foo(int)-->B.bar(int)
+B.bar(int)-->B.baz(int)
+B.foo(int)-->B.bar(int)
+B.bar(int)-->B.baz(int)
+B.foo(int)-->B.bar(int)
+B.bar(int)-->B.baz(int)

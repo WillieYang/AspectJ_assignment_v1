@@ -1,7 +1,8 @@
 package q1.sy3g16;
 
 import q1.B;
-import q1.Test;
+import test.Test_q1;
+
 import org.aspectj.lang.Signature;
 
 import java.io.BufferedWriter;
@@ -18,7 +19,7 @@ public aspect Aspect_Part_One {
 	
 	pointcut callnodes(B b): cflowbelow(call(public int q1..*(int)))
 							 && target(b)
-								&& within(B || Test);
+								&& within(B || Test_q1);
 	
 	before(B b) : callnodes(b) {
 		
@@ -33,6 +34,14 @@ public aspect Aspect_Part_One {
 		System.out.println(
 				"JoinPoint at:" + thisJoinPointStaticPart.getSourceLocation().getWithinType().getCanonicalName()
 				+ "-->" + thisJoinPointStaticPart.getSourceLocation().getLine());
+		
+		System.out.println("-------------");
+		
+		System.out.println(sig.getReturnType());
+		System.out.println(sig_2.getDeclaringTypeName());
+		
+		System.out.println("-------------");
+		
 		System.out.println("Target method:" + targetnode);
 		
 		System.out.println(

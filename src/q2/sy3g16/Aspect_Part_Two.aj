@@ -1,7 +1,8 @@
 package q2.sy3g16;
 
-import q1.B;
-import q1.Test;
+import q2.B;
+import test.Test_q2;
+
 import org.aspectj.lang.Signature;
 
 import java.io.BufferedWriter;
@@ -17,16 +18,16 @@ public aspect Aspect_Part_Two {
 	public String nodefile = "./node.csv";
 	public String edgefile = "./edge.csv";
 	
-	pointcut callnodes(B b): cflowbelow(call(public int q1..*(int)))
+	pointcut callnodes(B b): cflowbelow(call(public int q2..*(int)))
 							 && target(b)
-								&& within(B || Test);
+								&& within(B || Test_q2);
 	
-	after(B b) throwing(Exception e2) : callnodes(b) {
+	before(B b) : callnodes(b) {
 		
 		Signature sig = thisJoinPointStaticPart.getSignature();
 		Signature sig_2 = thisEnclosingJoinPointStaticPart.getSignature();
 
-		System.out.println("After called ------");
+		System.out.println("Before called ------");
 		
 		currentnode = "B" + "." + sig.getName() + "(int)";
 		targetnode = "B" + "." + sig_2.getName() + "(int)";
@@ -56,13 +57,27 @@ public aspect Aspect_Part_Two {
 					BufferedWriter bw_edge = new BufferedWriter(fw_edge);
 					PrintWriter out_edge = new PrintWriter(bw_edge))
 				{
-					out_edge.println(targetnode + "--" + currentnode);
+					out_edge.println(targetnode + "-->" + currentnode);
 					
 				}catch(IOException e){
 					System.out.println("Error Message.");
 				}
 		}
 		
-		System.out.println("Threw an exception:" + e2);
+		System.out.println("Closing......");
+	}
+	
+	after(B b) throwing(Exception e2) : callnodes(b){
+		
+		try(FileWriter fw_expt = new FileWriter(edgefile, true);
+				BufferedWriter bw_expt = new BufferedWriter(fw_expt);
+				PrintWriter out_expt = new PrintWriter(bw_expt))
+			{
+				out_expt.println(targetnode + "--" + currentnode);
+				
+			}catch(IOException e){
+				System.out.println("Error Message.");
+			}
+		System.out.println("Therw an exception" + e2);
 	}
 }
