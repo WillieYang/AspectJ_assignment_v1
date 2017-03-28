@@ -8,5 +8,7 @@ public class Test_q1 {
 		
 		B b = new B();
 		b.foo(2);
+		b.bar();
+		b.tell();
 	}
 }

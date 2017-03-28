@@ -3,17 +3,21 @@ package q1;
 public class B {
 
 	public int foo(int a){
-		bar(1);
+		bar();
 		return 0;
 	}
 	
-	public int bar(int b){
+	public void bar(){
 		
-		return baz(b);
+		baz(2);
 	}
 	
 	public int baz(int a){
 		
 		return a + a;
+	}
+	
+	public void tell(){
+		System.out.println("shengyang");
 	}
 }

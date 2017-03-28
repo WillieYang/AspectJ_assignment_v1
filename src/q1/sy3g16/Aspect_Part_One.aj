@@ -26,7 +26,7 @@ public aspect Aspect_Part_One {
 	
 	pointcut callnodes(B b): cflowbelow(call(public int q1..*(int)))
 							 && target(b)
-								&& within(B || Test_q1);
+								&& within(B);
 	
 	before(B b) : callnodes(b) {
 		
